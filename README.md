@@ -1,13 +1,13 @@
 
-# 🎉 It's a boy !
+# ✨ Première entitée
 
-Félicitations tu es bien sur le git. 
-voici les differentes commandes a effectuer pour continuer.
-
-Si tu rencontre des difficultés, n'hésites pas a tout simplement cloner ce projet !
+On Avance, maintenant il suffit de creer tes premieres entitées
+avec `php bin/console make:entity`.  puis `php bin/console doctrine:schema:update --force`  pour creer la table en base de données.
 
 
 ## Commandes utiles
+Cours 1 :
+
 | Requirement      |
 | ------------- |
 | `composer require symfony/maker-bundle --dev`|
