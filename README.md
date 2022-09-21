@@ -1,9 +1,8 @@
 
-# ✨ Fixtures
+# ✨ Controllers
 
-
-Pour l'instant ça va vite, mais trouve une manière de remplir ces données Rapidement grâce aux fixtures.
-Pour se faire jette un oeil du coté des Requirements, et reproduis l'arborecence du projet. A partir de [./src/AppFixtures.php](./src/AppFixtures.php) 
+Comme tu l'as vu, il y a toujours moyen de se simplifier la vie avec symfony.
+Creer un controller a l'aide de l'outil mit a disposition par symfony ! (`php bin/console make:controller`)
 
 ## Commandes utiles
 
@@ -12,11 +11,11 @@ Pour se faire jette un oeil du coté des Requirements, et reproduis l'arborecenc
 | `composer require symfony/maker-bundle --dev`|
 | `composer require orm`     |
 | `composer require orm-fixtures --dev`     |
+| `composer require fakerphp/faker --dev` |
 
 | Commande      | Utilité       | 
 | ------------- |:-------------:| 
-| `php bin/console doctrine:fixtures:load `| Execute les fixtures |
-
+| `php bin/console make:controller` |
 
     Cours 1 & 2 :
 
@@ -37,6 +36,14 @@ Pour se faire jette un oeil du coté des Requirements, et reproduis l'arborecenc
 | Commande      | Utilité       | 
 | ------------- |:-------------:| 
 | `php bin/console doctrine:fixtures:load `| Execute les fixtures |
+
+
+    Cours 4 :
+
+| Commande      | Utilité       | 
+| ------------- |:-------------:| 
+| `php bin/console make:controller` | Creer un controller |
+
 
 
 
