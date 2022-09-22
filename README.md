@@ -1,9 +1,8 @@
 
-# ✨ Controllers
+# ✨ Serialisation
 
-Comme tu l'as vu, il y a toujours moyen de se simplifier la vie avec symfony.
-Creer un controller a l'aide de l'outil mit a disposition par symfony ! (`php bin/console make:controller`)
-
+Ici, il est question d'arranger tes données.
+En effet, utilises le serializer de symfony afin de ranger les données extraites de la BDD
 ## Commandes utiles
 
 | Requirement      |
@@ -12,10 +11,7 @@ Creer un controller a l'aide de l'outil mit a disposition par symfony ! (`php bi
 | `composer require orm`     |
 | `composer require orm-fixtures --dev`     |
 | `composer require fakerphp/faker --dev` |
-
-| Commande      | Utilité       | 
-| ------------- |:-------------:| 
-| `php bin/console make:controller` |
+| `composer require symfony/serializer-pack` |
 
     Cours 1 & 2 :
 
@@ -38,7 +34,7 @@ Creer un controller a l'aide de l'outil mit a disposition par symfony ! (`php bi
 | `php bin/console doctrine:fixtures:load `| Execute les fixtures |
 
 
-    Cours 4 :
+    Cours 4 & 5 :
 
 | Commande      | Utilité       | 
 | ------------- |:-------------:| 

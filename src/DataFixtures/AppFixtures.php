@@ -25,7 +25,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 5; $i++) {
             $event = new Event;
             $endDate = $this->faker->optional($weight = 0.25)->dateTime($max = 'now');
-            $event->setEventName($this->faker->realText($maxNbChars =140, $indexSize = 2))
+            $event->setEventName($this->faker->realText($maxNbChars =30, $indexSize = 2))
             ->setEventDesc($this->faker->text())
             ->setEventPrice($this->faker->optional($weight = 0.25)->randomDigit())
             ->setEventStartDate($this->faker->dateTime($max = $endDate ? $endDate : 'now'))
