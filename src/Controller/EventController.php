@@ -2,15 +2,17 @@
 
 namespace App\Controller;
 
-use App\Repository\EventRepository;
 use DateTime;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
-
+use App\Entity\Event;
+use App\Repository\EventRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class EventController extends AbstractController
 {
@@ -23,21 +25,6 @@ class EventController extends AbstractController
             'path' => 'src/Controller/EventController.php',
         ]);
     }
-    /*
-    #[Route('/api/events', name: 'event.getAll', methods:['GET'])]
-    public function getAllEvents(
-        EventRepository $repository,
-        ): JsonResponse
-    {
-        $events =  $repository->findAll();
-
-        return new JsonResponse(    
-            $events,
-            Response::HTTP_OK, 
-            [], 
-        );
-    }
-    */
 
     /**
      * Renvoie tous les events
@@ -61,16 +48,31 @@ class EventController extends AbstractController
             true
         );
     } 
+
+    /*
+    #[Route('/api/events/{idEvent}', name:  'event.get', methods: ['GET'])]
+    public function getEvent(int $idEvent, SerializerInterface $serializer, EventRepository $repository): JsonResponse {
+
+        $event = $repository->find($idEvent);
+        return $event ? 
+            new JsonResponse($serializer->serialize($event, 'json'), Response::HTTP_OK, [], true)
+            : new JsonResponse(null, Response::HTTP_NOT_FOUND);
+   }*/
+
+
+   /**
+    * Renvoie un event par son id
+    *
+    * @param Event $event
+    * @param SerializerInterface $serializer
+    * @return JsonResponse
+    */
+    #[Route('/api/events/{idEvent}', name:  'event.get', methods: ['GET'])]
+    #[ParamConverter("event", options: ["id" => "idEvent"])]
     
-    #[Route('/api/events/{idEvent}', name: 'event.get', methods:['GET'])]
-    public function getEvent(
-        int $idEvent,
-        EventRepository $repository,
-        SerializerInterface $serializer
-    ): JsonResponse
-    {
-        return new JsonResponse(
-            ['message' => 'l\'id est : ' . $idEvent],
-        );
-    }
+   public function getEvent(Event $event, SerializerInterface $serializer): JsonResponse 
+   {
+       $jsonEvent = $serializer->serialize($event, 'json');
+       return new JsonResponse($jsonEvent, Response::HTTP_OK, ['accept' => 'json'], true);
+   }
 }
