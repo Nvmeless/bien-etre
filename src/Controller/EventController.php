@@ -40,7 +40,7 @@ class EventController extends AbstractController
         ): JsonResponse
     {
         $events =  $repository->findAll();
-        $jsonEvents = $serializer->serialize($events, 'json');
+        $jsonEvents = $serializer->serialize($events, 'json',["groups" => "getAllEvents"]);
         return new JsonResponse(    
             $jsonEvents,
             Response::HTTP_OK, 
@@ -72,7 +72,7 @@ class EventController extends AbstractController
     
    public function getEvent(Event $event, SerializerInterface $serializer): JsonResponse 
    {
-       $jsonEvent = $serializer->serialize($event, 'json');
+       $jsonEvent = $serializer->serialize($event, 'json', ["groups" => "getAllEvents"]);
        return new JsonResponse($jsonEvent, Response::HTTP_OK, ['accept' => 'json'], true);
    }
 }

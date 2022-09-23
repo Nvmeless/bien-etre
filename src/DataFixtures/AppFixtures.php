@@ -1,6 +1,7 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\Author;
 use App\Entity\Event;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -22,6 +23,19 @@ class AppFixtures extends Fixture
     {
         //Ici je manipules des données pour creer mon Event.
         //Les differentes références sont obtensible ici : ../Entity/Event.php
+
+        $authorList = [];
+
+        for ($i = 0; $i < 1; $i++) {
+            $author = new Author;
+            $author->setAuthorFirstName($this->faker->firstName())
+                ->setAuthorLastName($this->faker->lastName());
+            
+            $authorList[] = $author; 
+            
+            $manager->persist($author);
+        }
+
         for ($i = 0; $i < 5; $i++) {
             $event = new Event;
             $endDate = $this->faker->optional($weight = 0.25)->dateTime($max = 'now');
@@ -29,10 +43,14 @@ class AppFixtures extends Fixture
             ->setEventDesc($this->faker->text())
             ->setEventPrice($this->faker->optional($weight = 0.25)->randomDigit())
             ->setEventStartDate($this->faker->dateTime($max = $endDate ? $endDate : 'now'))
-            ->setEventEndDate($endDate);
+            ->setEventEndDate($endDate)
+            ->setAuthor($authorList[array_rand($authorList)]);;
 
             $manager->persist($event);
         }
+
+
+
 
         $manager->flush();
     }

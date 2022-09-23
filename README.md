@@ -1,7 +1,9 @@
 
-# ✨ ParamConverter
+# ✨ Relations & Groups
 
-Le param converter est un outil d'annotation qui permet d'alimenter ta method avec les bons parametres automatiquement !
+Certaines données ne sont pas aussi simple qu'un event a load, essayes de mettre en relation deux données grace à l'ORM doctrine.
+
+Creer ensuite pour Author, le controller adéquat pour avoir les entités par auteur.
 ## Commandes utiles
 
 | Requirement      |
