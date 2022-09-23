@@ -1,8 +1,7 @@
 
-# ✨ Serialisation
+# ✨ ParamConverter
 
-Ici, il est question d'arranger tes données.
-En effet, utilises le serializer de symfony afin de ranger les données extraites de la BDD
+Le param converter est un outil d'annotation qui permet d'alimenter ta method avec les bons parametres automatiquement !
 ## Commandes utiles
 
 | Requirement      |
@@ -12,6 +11,7 @@ En effet, utilises le serializer de symfony afin de ranger les données extraite
 | `composer require orm-fixtures --dev`     |
 | `composer require fakerphp/faker --dev` |
 | `composer require symfony/serializer-pack` |
+| `composer require sensio/framework-extra-bundle` |
 
     Cours 1 & 2 :
 
