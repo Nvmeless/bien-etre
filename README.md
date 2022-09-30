@@ -1,7 +1,7 @@
 
-# 🚨 Et Xceptions !
+# Validators !
 
-Voyons comment mettre les subscribers au profit de notre api.
+Mets en place des validators afin de certifier l'integrité de tes données.
 
 ## Commandes utiles
 
@@ -13,6 +13,8 @@ Voyons comment mettre les subscribers au profit de notre api.
 | `composer require fakerphp/faker --dev` |
 | `composer require symfony/serializer-pack` |
 | `composer require sensio/framework-extra-bundle` |
+| `composer require symfony/validator doctrine/annotations` |
+
 
 
 | Commande      | Utilité       | 
