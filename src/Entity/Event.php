@@ -13,27 +13,27 @@ class Event
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["getAllEvents"])]
+    #[Groups(["getAllEvents", "getAllAuthors"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["getAllEvents"])]
+    #[Groups(["getAllEvents", "getAllAuthors"])]
     private ?string $eventName = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(["getAllEvents"])]
+    #[Groups(["getAllEvents", "getAllAuthors"])]
     private ?float $eventPrice = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(["getAllEvents"])]
+    #[Groups(["getAllEvents", "getAllAuthors"])]
     private ?string $eventDesc = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(["getAllEvents"])]
+    #[Groups(["getAllEvents", "getAllAuthors"])]
     private ?\DateTimeInterface $eventStartDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups(["getAllEvents"])]
+    #[Groups(["getAllEvents", "getAllAuthors"])]
     private ?\DateTimeInterface $eventEndDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'events')]

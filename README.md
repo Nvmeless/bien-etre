@@ -1,9 +1,8 @@
 
-# ✨ Relations & Groups
+# ✨ Place au CRUD !
 
-Certaines données ne sont pas aussi simple qu'un event a load, essayes de mettre en relation deux données grace à l'ORM doctrine.
+Maintenant, mets en place le CRUD pour tes differents services en t'inspirant des Events !
 
-Creer ensuite pour Author, le controller adéquat pour avoir les entités par auteur.
 ## Commandes utiles
 
 | Requirement      |

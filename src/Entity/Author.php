@@ -14,18 +14,19 @@ class Author
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["getAllEvents"])]
+    #[Groups(["getAllEvents", 'getAllAuthors'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["getAllEvents"])]
+    #[Groups(["getAllEvents", 'getAllAuthors'])]
     private ?string $authorFirstName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(["getAllEvents"])]
+    #[Groups(["getAllEvents", 'getAllAuthors'])]
     private ?string $authorLastName = null;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Event::class)]
+    #[Groups(['getAllAuthors'])]
     private Collection $events;
 
     public function __construct()
