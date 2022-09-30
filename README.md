@@ -1,7 +1,7 @@
 
-# ✨ Place au CRUD !
+# 🚨 Et Xceptions !
 
-Maintenant, mets en place le CRUD pour tes differents services en t'inspirant des Events !
+Voyons comment mettre les subscribers au profit de notre api.
 
 ## Commandes utiles
 
@@ -13,6 +13,11 @@ Maintenant, mets en place le CRUD pour tes differents services en t'inspirant de
 | `composer require fakerphp/faker --dev` |
 | `composer require symfony/serializer-pack` |
 | `composer require sensio/framework-extra-bundle` |
+
+
+| Commande      | Utilité       | 
+| ------------- |:-------------:| 
+| `php bin/console make:subscriber`| Creer un nouveau Subscriber |
 
     Cours 1 & 2 :
 
@@ -42,6 +47,11 @@ Maintenant, mets en place le CRUD pour tes differents services en t'inspirant de
 | `php bin/console make:controller` | Creer un controller |
 
 
+    Cours 8
+    
+| Commande      | Utilité       | 
+| ------------- |:-------------:| 
+| `php bin/console make:subscriber`| Creer un nouveau Subscriber |
 
 
 
