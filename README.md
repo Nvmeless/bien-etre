@@ -1,7 +1,7 @@
 
-# Validators !
+#🎉 Un nouveau Type
 
-Mets en place des validators afin de certifier l'integrité de tes données.
+Les images et fichiers en tout genre
 
 ## Commandes utiles
 
@@ -14,12 +14,7 @@ Mets en place des validators afin de certifier l'integrité de tes données.
 | `composer require symfony/serializer-pack` |
 | `composer require sensio/framework-extra-bundle` |
 | `composer require symfony/validator doctrine/annotations` |
-
-
-
-| Commande      | Utilité       | 
-| ------------- |:-------------:| 
-| `php bin/console make:subscriber`| Creer un nouveau Subscriber |
+| `composer require vich/uploader-bundle` |
 
     Cours 1 & 2 :
 
