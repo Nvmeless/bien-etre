@@ -41,10 +41,14 @@ class EventController extends AbstractController
     #[Route('/api/events', name: 'event.getAll', methods:['GET'])]
     public function getAllEvents(
         EventRepository $repository,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        Request $request
         ): JsonResponse
     {
-        $events =  $repository->findAll();
+
+        $page = $request->get('page', 1);
+        $limit = $request->get('limit', 1);
+        $events =  $repository->findAllWithPagination($page,$limit);
         $jsonEvents = $serializer->serialize($events, 'json',["groups" => "getAllEvents"]);
         return new JsonResponse(    
             $jsonEvents,
