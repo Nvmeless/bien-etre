@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -90,8 +91,9 @@ class EventController extends AbstractController
 
        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
    }
-
+   
    #[Route('/api/events', name:"event.create", methods: ['POST'])]
+   #[IsGranted('ADMIN', message: 'Hanhanhan, vous n\avez pas dit le mot magiquenh')]
    public function createEvent(Request $request, AuthorRepository $authorRepository, SerializerInterface $serializer, EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator): JsonResponse 
    {
 
@@ -115,8 +117,7 @@ class EventController extends AbstractController
   
 
     #[Route('/api/events/{id}', name:"event.update", methods:['PUT'])]
-
-    public function updateBook(Request $request, SerializerInterface $serializer, Event $event, EntityManagerInterface $entityManager, AuthorRepository $authorRepository): JsonResponse 
+    public function updateEvent(Request $request, SerializerInterface $serializer, Event $event, EntityManagerInterface $entityManager, AuthorRepository $authorRepository): JsonResponse 
     {
         $updatedEvent = $serializer->deserialize($request->getContent(), 
                 Event::class, 

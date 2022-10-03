@@ -1,12 +1,14 @@
 <?php
 namespace App\DataFixtures;
 
-use App\Entity\Author;
-use App\Entity\Event;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use App\Entity\User;
 use Faker\Generator;
+use App\Entity\Event;
+use App\Entity\Author;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
@@ -15,18 +17,49 @@ class AppFixtures extends Fixture
      */
     private Generator $faker;
 
-    public function __construct(){
-        $this->faker = Factory::create('fr_FR');
-    }
+    /**
+     * Password Hasher
+     *
+     * @var UserPasswordHasherInterface
+     */
+    private $userPasswordHasher;
 
+    public function __construct(UserPasswordHasherInterface $userPasswordHasher){
+        $this->faker = Factory::create('fr_FR');
+        $this->userPasswordHasher = $userPasswordHasher;
+    }
+    
     public function load(ObjectManager $manager): void
     {
-        //Ici je manipules des données pour creer mon Event.
-        //Les differentes références sont obtensible ici : ../Entity/Event.php
+        // Public
+        $publicUser = new User();
+        $publicUser->setUsername("public");
+        $publicUser->setRoles(["PUBLIC"]);
+        $publicUser->setPassword($this->userPasswordHasher->hashPassword($publicUser, "public"));
+        $manager->persist($publicUser);
 
+
+        // Authentifiés
+        for ($i = 0; $i < 5; $i++) {
+            $userUser = new User();
+            $password = $this->faker->password(2, 6);
+            $userUser->setUsername($this->faker->userName() . "@". $password);
+            $userUser->setRoles(["USER"]);
+            $userUser->setPassword($this->userPasswordHasher->hashPassword($userUser, $password));
+            $manager->persist($userUser);
+        }
+
+
+        // Admins
+        $adminUser = new User();
+        $adminUser->setUsername("admin");
+        $adminUser->setRoles(["ADMIN"]);
+        $adminUser->setPassword($this->userPasswordHasher->hashPassword($adminUser, "password"));
+        $manager->persist($adminUser);
+   
         $authorList = [];
 
-        for ($i = 0; $i < 1; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $author = new Author;
             $author->setAuthorFirstName($this->faker->firstName())
                 ->setAuthorLastName($this->faker->lastName());

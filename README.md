@@ -1,7 +1,7 @@
 
-#🎉 Un nouveau Type
+# 👥 Des nouveaux types
 
-Les images et fichiers en tout genre
+Ajout d'utilisateurs et de droits sur tout ça !
 
 ## Commandes utiles
 
@@ -15,6 +15,13 @@ Les images et fichiers en tout genre
 | `composer require sensio/framework-extra-bundle` |
 | `composer require symfony/validator doctrine/annotations` |
 | `composer require vich/uploader-bundle` |
+| `composer require security` |
+| `composer require lexik/jwt-authentication-bundle` |
+
+| Commande      | Utilité       | 
+| ------------- |:-------------:| 
+| `openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096`     | Creer une clée Privée     | 
+| `openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout`     | Creer une clée Publique     | 
 
     Cours 1 & 2 :
 
@@ -50,5 +57,9 @@ Les images et fichiers en tout genre
 | ------------- |:-------------:| 
 | `php bin/console make:subscriber`| Creer un nouveau Subscriber |
 
+    Cours 10
 
-
+| Commande      | Utilité       | 
+| ------------- |:-------------:| 
+| `openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096`     | Creer une clée Privée     | 
+| `openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout`     | Creer une clée Publique     | 
