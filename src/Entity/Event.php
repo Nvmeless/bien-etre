@@ -40,6 +40,9 @@ class Event
     #[Groups(["getAllEvents"])]
     private ?Author $author = null;
 
+    #[ORM\Column]
+    private ?bool $status = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -113,6 +116,18 @@ class Event
     public function setAuthor(?Author $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function isStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

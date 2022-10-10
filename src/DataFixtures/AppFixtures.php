@@ -69,14 +69,16 @@ class AppFixtures extends Fixture
             $manager->persist($author);
         }
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $event = new Event;
-            $endDate = $this->faker->optional($weight = 0.25)->dateTime($max = 'now');
+            // $endDate = $this->faker->optional($weight = 0.25)->dateTime($max = 'now');
+            $endDate = $this->faker->optional($weight = 0.25)->dateTimeInInterval('-1 week', '+10 week');
             $event->setEventName($this->faker->realText($maxNbChars =30, $indexSize = 2))
             ->setEventDesc($this->faker->text())
             ->setEventPrice($this->faker->optional($weight = 0.25)->randomDigit())
             ->setEventStartDate($this->faker->dateTime($max = $endDate ? $endDate : 'now'))
             ->setEventEndDate($endDate)
+            ->setStatus(true)
             ->setAuthor($authorList[array_rand($authorList)]);;
 
             $manager->persist($event);

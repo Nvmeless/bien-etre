@@ -4,13 +4,14 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\Event;
+use DateTimeImmutable;
 use App\Repository\EventRepository;
 use App\Repository\AuthorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -31,6 +32,34 @@ class EventController extends AbstractController
         ]);
     }
 
+    // /**
+    //  * Renvoie tous les events
+    //  *
+    //  * @param EventRepository $repository
+    //  * @param SerializerInterface $serializer
+    //  * @return JsonResponse
+    //  */
+    // // #[Route('/api/events', name: 'event.getAll', methods:['GET'])]
+    // public function getAllEvents(
+    //     EventRepository $repository,
+    //     SerializerInterface $serializer,
+    //     Request $request
+    //     ): JsonResponse
+    // {
+
+    //     $page = $request->get('page', 1);
+    //     $limit = $request->get('limit', 1);
+    //     $events =  $repository->findAllWithPagination($page,$limit);
+    //     $jsonEvents = $serializer->serialize($events, 'json',["groups" => "getAllEvents"]);
+    //     return new JsonResponse(    
+    //         $jsonEvents,
+    //         Response::HTTP_OK, 
+    //         [], 
+    //         true
+    //     );
+    // } 
+
+
     /**
      * Renvoie tous les events
      *
@@ -39,16 +68,20 @@ class EventController extends AbstractController
      * @return JsonResponse
      */
     #[Route('/api/events', name: 'event.getAll', methods:['GET'])]
-    public function getAllEvents(
+    public function getAllEventsUnderDays(
         EventRepository $repository,
         SerializerInterface $serializer,
         Request $request
         ): JsonResponse
     {
-
+        // $fromDays = '+10 day';
+        // $toDays = +10 day;
         $page = $request->get('page', 1);
-        $limit = $request->get('limit', 1);
-        $events =  $repository->findAllWithPagination($page,$limit);
+        $limit = $request->get('limit', 5);
+
+        $datetime = new DateTimeImmutable();
+
+        $events =  $repository->findEventBetween($datetime->modify('+31 day'), $datetime, $page, $limit);
         $jsonEvents = $serializer->serialize($events, 'json',["groups" => "getAllEvents"]);
         return new JsonResponse(    
             $jsonEvents,
@@ -57,16 +90,6 @@ class EventController extends AbstractController
             true
         );
     } 
-
-    /*
-    #[Route('/api/events/{idEvent}', name:  'event.get', methods: ['GET'])]
-    public function getEvent(int $idEvent, SerializerInterface $serializer, EventRepository $repository): JsonResponse {
-
-        $event = $repository->find($idEvent);
-        return $event ? 
-            new JsonResponse($serializer->serialize($event, 'json'), Response::HTTP_OK, [], true)
-            : new JsonResponse(null, Response::HTTP_NOT_FOUND);
-   }*/
 
 
    /**
@@ -86,16 +109,18 @@ class EventController extends AbstractController
    }
 
 
-   #[Route('/api/events/{idEvent}', name: 'event.delete', methods: ['DELETE'])]
-    #[ParamConverter("event", options: ["id" => "idEvent"])]
-   public function deleteEvent(Event $event, EntityManagerInterface $entityManager): JsonResponse 
-   {
-       $entityManager->remove($event);
-       $entityManager->flush();
+//    #[Route('/api/events/{idEvent}', name: 'event.delete', methods: ['DELETE'])]
+//     #[ParamConverter("event", options: ["id" => "idEvent"])]
+//    public function deleteEvent(Event $event, EntityManagerInterface $entityManager): JsonResponse 
+//    {
+//        $entityManager->remove($event);
+//        $entityManager->flush();
 
-       return new JsonResponse(null, Response::HTTP_NO_CONTENT);
-   }
+//        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+//    }
    
+   
+
    #[Route('/api/events', name:"event.create", methods: ['POST'])]
    #[IsGranted('ADMIN', message: 'Hanhanhan, vous n\avez pas dit le mot magiquenh')]
    public function createEvent(Request $request, AuthorRepository $authorRepository, SerializerInterface $serializer, EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator): JsonResponse 
@@ -136,4 +161,8 @@ class EventController extends AbstractController
         return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
    }
    
+
+
+
+
 }

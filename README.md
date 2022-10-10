@@ -1,7 +1,7 @@
 
-# 👥 Des nouveaux types
+# Mechanics.
 
-Ajout d'utilisateurs et de droits sur tout ça !
+Donnes du sens a ton api
 
 ## Commandes utiles
 
@@ -63,3 +63,6 @@ Ajout d'utilisateurs et de droits sur tout ça !
 | ------------- |:-------------:| 
 | `openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096`     | Creer une clée Privée     | 
 | `openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout`     | Creer une clée Publique     | 
+
+
+https://www.doctrine-project.org/projects/doctrine-orm/en/2.13/reference/query-builder.html
