@@ -1,7 +1,7 @@
 
-# Mechanics.
+# Mechanics Advanced.
 
-Donnes du sens a ton api
+Le reste du sens de mon API
 
 ## Commandes utiles
 
