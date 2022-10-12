@@ -4,13 +4,16 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\Picture;
+use JMS\Serializer\Serializer;
 use App\Repository\PictureRepository;
+use JMS\Serializer\SerializerInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Request;
+// use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -62,7 +65,10 @@ class PictureController extends AbstractController
         $picture->setUploadDate(new DateTime());
         $entityManager->persist($picture);
         $entityManager->flush();
-        $jsonPicture = $serializer->serialize($picture, 'json', ['groups' => 'getPictures']);
+        
+        $context = SerializationContext::create()->setGroups(['getPictures']);
+
+        $jsonPicture = $serializer->serialize($picture, 'json', $context );
 
 
         $location = $urlGenerator->generate('picture.get', ['idPicture' => $picture->getId()], UrlGeneratorInterface::ABSOLUTE_URL);

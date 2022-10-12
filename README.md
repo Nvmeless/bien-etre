@@ -1,7 +1,7 @@
 
-# Cash = Money
+# ⬆️ Grow on Richeardson
 
-On a assez rit, maintenant on met du ca$h sur cette application !
+Maintenant on mets l'autodecouvrabilité, comme ça tout est carré.
 
 ## Commandes utiles
 
@@ -17,6 +17,7 @@ On a assez rit, maintenant on met du ca$h sur cette application !
 | `composer require vich/uploader-bundle` |
 | `composer require security` |
 | `composer require lexik/jwt-authentication-bundle` |
+| `composer require willdurand/hateoas-bundle` |
 
 | Commande      | Utilité       | 
 | ------------- |:-------------:| 

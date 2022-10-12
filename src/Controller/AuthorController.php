@@ -3,16 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Author;
+use JMS\Serializer\Serializer;
 use App\Repository\EventRepository;
 use App\Repository\AuthorRepository;
+use JMS\Serializer\SerializerInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\MakerBundle\Validator;
-use Symfony\Component\HttpFoundation\Request;
 
+use JMS\Serializer\SerializationContext;
+use Symfony\Bundle\MakerBundle\Validator;
+// use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -44,7 +47,8 @@ class AuthorController extends AbstractController
         ): JsonResponse
     {
         $authors =  $repository->findAll();
-        $jsonAuthors = $serializer->serialize($authors, 'json',["groups" => "getAllAuthors"]);
+        $context = SerializationContext::create()->setGroups(['getAllAuthors']);
+        $jsonAuthors = $serializer->serialize($authors, 'json', $context);
         return new JsonResponse(    
             $jsonAuthors,
             Response::HTTP_OK, 
@@ -66,7 +70,8 @@ class AuthorController extends AbstractController
     
    public function getAuthor(Author $author, SerializerInterface $serializer): JsonResponse 
    {
-       $jsonAuthors = $serializer->serialize($author, 'json', ["groups" => "getAllAuthors"]);
+        $context = SerializationContext::create()->setGroups(['getAllAuthors']);
+        $jsonAuthors = $serializer->serialize($author, 'json', $context);
        return new JsonResponse($jsonAuthors, Response::HTTP_OK, ['accept' => 'json'], true);
    }
 
@@ -103,8 +108,9 @@ class AuthorController extends AbstractController
         $entityManager->persist($author);
         $entityManager->flush();
         }
+        $context = SerializationContext::create()->setGroups(['getAllAuthors']);
 
-        $jsonBook = $serializer->serialize($author, 'json', ['groups' => 'getAllAuthors']);
+        $jsonBook = $serializer->serialize($author, 'json',  $context);
        
         $location = $urlGenerator->generate('author.get', ['idAuthor' => $author->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
 
@@ -113,25 +119,50 @@ class AuthorController extends AbstractController
  
   
 
-    #[Route('/api/authors/{id}', name:"author.update", methods:['PUT'])]
+//     #[Route('/api/authors/{id}', name:"author.update", methods:['PUT'])]
 
-    public function updateBook(Request $request, SerializerInterface $serializer, Author $author, EntityManagerInterface $entityManager, EventRepository $eventRepository): JsonResponse 
-    {
-        $updatedAuthor = $serializer->deserialize($request->getContent(), 
-                Author::class, 
-                'json', 
-                [AbstractNormalizer::OBJECT_TO_POPULATE => $author]);
-        $content = $request->toArray();
+//     public function updateEvent(Request $request, SerializerInterface $serializer, Author $author, EntityManagerInterface $entityManager, EventRepository $eventRepository): JsonResponse 
+//     {
+//         $updatedAuthor = $serializer->deserialize($request->getContent(), 
+//                 Author::class, 
+//                 'json', 
+//                 [AbstractNormalizer::OBJECT_TO_POPULATE => $author]);
+//         $content = $request->toArray();
 
-        if(array_key_exists('idEvent',$content) && $content['idEvent']){
-            //Comment mettre plusieurs event d'un coup ?
-            $updatedAuthor->addEvent($eventRepository->find( $content['idEvent']));
-            $entityManager->persist($updatedAuthor);
-            $entityManager->flush();
-        }
+//         if(array_key_exists('idEvent',$content) && $content['idEvent']){
+//             //Comment mettre plusieurs event d'un coup ?
+//             $updatedAuthor->addEvent($eventRepository->find( $content['idEvent']));
+//             $entityManager->persist($updatedAuthor);
+//             $entityManager->flush();
+//         }
         
-        $entityManager->persist($updatedAuthor);
-        $entityManager->flush();
-        return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
-   }
+//         $entityManager->persist($updatedAuthor);
+//         $entityManager->flush();
+//         return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
+//    }
+
+
+   #[Route('/api/authors/{id}', name:"author.update", methods:['PUT'])]
+
+   public function updateEvent(Request $request, SerializerInterface $serializer, Author $author, EntityManagerInterface $entityManager, EventRepository $eventRepository): JsonResponse 
+   {
+       $updatedAuthor = $serializer->deserialize($request->getContent(), 
+               Author::class, 
+               'json');
+       $content = $request->toArray();
+
+       $author->setAuthorFirstName($updatedAuthor->getAuthorFirstName() ?? $author->getAuthorFirstName());
+       $author->setAuthorLastName($updatedAuthor->getAuthorLastName());
+
+       if(array_key_exists('idEvent',$content) && $content['idEvent']){
+           //Comment mettre plusieurs event d'un coup ?
+           $author->addEvent($eventRepository->find( $content['idEvent']));
+           $entityManager->persist($updatedAuthor);
+           $entityManager->flush();
+       }
+       
+       $entityManager->persist($author);
+       $entityManager->flush();
+       return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
+  }
 }

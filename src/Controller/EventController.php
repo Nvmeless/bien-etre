@@ -5,16 +5,19 @@ namespace App\Controller;
 use DateTime;
 use App\Entity\Event;
 use DateTimeImmutable;
+use JMS\Serializer\Serializer;
 use App\Repository\EventRepository;
 use App\Repository\AuthorRepository;
+use JMS\Serializer\SerializerInterface;
 use Doctrine\ORM\EntityManagerInterface;
+
+use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+// use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -49,11 +52,11 @@ class EventController extends AbstractController
     {
         $page = $request->get('page', 1);
         $limit = $request->get('limit', 5);
-
         $datetime = new DateTimeImmutable();
-
+        
+        $context = SerializationContext::create()->setGroups(['getAllEvents']);
         $events =  $repository->findEventBetween($datetime->modify('+31 day'), $datetime, $page, $limit);
-        $jsonEvents = $serializer->serialize($events, 'json',["groups" => "getAllEvents"]);
+        $jsonEvents = $serializer->serialize($events, 'json',$context);
         return new JsonResponse(    
             $jsonEvents,
             Response::HTTP_OK, 
@@ -75,8 +78,10 @@ class EventController extends AbstractController
     
    public function getEvent(Event $event, SerializerInterface $serializer): JsonResponse 
    {
-       $jsonEvent = $serializer->serialize($event, 'json', ["groups" => "getAllEvents"]);
-       return new JsonResponse($jsonEvent, Response::HTTP_OK, ['accept' => 'json'], true);
+    
+        $context = SerializationContext::create()->setGroups(['getAllEvents']);
+        $jsonEvent = $serializer->serialize($event, 'json',$context);
+        return new JsonResponse($jsonEvent, Response::HTTP_OK, ['accept' => 'json'], true);
    }
 
 
@@ -94,8 +99,8 @@ class EventController extends AbstractController
         $idAuthor = $content['idAuthor'] ?? -1;
 
         $event->setAuthor($authorRepository->find($idAuthor));
-   
-        $jsonBook = $serializer->serialize($event, 'json', ['groups' => 'getAllEvents']);
+        $context = SerializationContext::create()->setGroups(['getAllEvents']);
+        $jsonBook = $serializer->serialize($event, 'json', $context );
        
         $location = $urlGenerator->generate('event.get', ['idEvent' => $event->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
 
@@ -109,13 +114,20 @@ class EventController extends AbstractController
     {
         $updatedEvent = $serializer->deserialize($request->getContent(), 
                 Event::class, 
-                'json', 
-                [AbstractNormalizer::OBJECT_TO_POPULATE => $event]);
+                'json');
+
+        
+        $event->setEventName($updatedEvent->getEventName() ?? $event->getEventName());
+        $event->setEventPrice($updatedEvent->getEventPrice() ?? $event->getEventPrice());
+        $event->setEventDesc($updatedEvent->getEventDesc() ?? $event->getEventDesc());
+        $event->setEventStartDate($updatedEvent->getEventStartDate() ?? $event->getEventStartDate());
+        $event->setEventEndDate($updatedEvent->getEventEndDate() ?? $event->setEventEndDate());
+        
         $content = $request->toArray();
         $idAuthor = $content['idAuthor'] ?? -1;
-        $updatedEvent->setAuthor($authorRepository->find($idAuthor));
+        $event->setAuthor($authorRepository->find($idAuthor));
         $cache->invalidateTags(["atomsCache"]);
-        $entityManager->persist($updatedEvent);
+        $entityManager->persist($event);
         $entityManager->flush();
         return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
    }
