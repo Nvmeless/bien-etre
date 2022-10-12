@@ -1,7 +1,7 @@
 
-# Mechanics Advanced.
+# Cash = Money
 
-Le reste du sens de mon API
+On a assez rit, maintenant on met du ca$h sur cette application !
 
 ## Commandes utiles
 
