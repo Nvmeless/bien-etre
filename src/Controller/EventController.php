@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -104,7 +105,7 @@ class EventController extends AbstractController
   
 
     #[Route('/api/events/{id}', name:"event.update", methods:['PUT'])]
-    public function updateEvent(Request $request, SerializerInterface $serializer, Event $event, EntityManagerInterface $entityManager, AuthorRepository $authorRepository): JsonResponse 
+    public function updateEvent(Request $request, SerializerInterface $serializer, Event $event, EntityManagerInterface $entityManager, AuthorRepository $authorRepository, TagAwareCacheInterface $cache): JsonResponse 
     {
         $updatedEvent = $serializer->deserialize($request->getContent(), 
                 Event::class, 
@@ -113,13 +114,15 @@ class EventController extends AbstractController
         $content = $request->toArray();
         $idAuthor = $content['idAuthor'] ?? -1;
         $updatedEvent->setAuthor($authorRepository->find($idAuthor));
-        
+        $cache->invalidateTags(["atomsCache"]);
         $entityManager->persist($updatedEvent);
         $entityManager->flush();
         return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
    }
    
 
+
+   
 
 
 
