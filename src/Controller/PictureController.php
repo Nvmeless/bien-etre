@@ -65,7 +65,7 @@ class PictureController extends AbstractController
         $jsonPicture = $serializer->serialize($picture, 'json', ['groups' => 'getPictures']);
 
 
-         $location = $urlGenerator->generate('picture.get', ['idPicture' => $picture->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-          return new JsonResponse($jsonPicture, Response::HTTP_CREATED, ["Location" => $location], true);
+        $location = $urlGenerator->generate('picture.get', ['idPicture' => $picture->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        return new JsonResponse($jsonPicture, Response::HTTP_CREATED, ["Location" => $location], true);
    }
 }

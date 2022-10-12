@@ -18,21 +18,22 @@ class Picture
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["getPictures"])]
+    #[Groups(["getPictures", "getAllAtoms"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["getPictures"])]
+    #[Groups(["getPictures", "getAllAtoms"])]
     private ?string $realname = null;
 
     #[ORM\Column(length: 255)]
     private ?string $realpath = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["getAllAtoms"])]
     private ?string $publicPath = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["getPictures"])]
+    #[Groups(["getPictures", "getAllAtoms"])]
     private ?string $mime = null;
 
     /**

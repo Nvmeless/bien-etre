@@ -32,34 +32,6 @@ class EventController extends AbstractController
         ]);
     }
 
-    // /**
-    //  * Renvoie tous les events
-    //  *
-    //  * @param EventRepository $repository
-    //  * @param SerializerInterface $serializer
-    //  * @return JsonResponse
-    //  */
-    // // #[Route('/api/events', name: 'event.getAll', methods:['GET'])]
-    // public function getAllEvents(
-    //     EventRepository $repository,
-    //     SerializerInterface $serializer,
-    //     Request $request
-    //     ): JsonResponse
-    // {
-
-    //     $page = $request->get('page', 1);
-    //     $limit = $request->get('limit', 1);
-    //     $events =  $repository->findAllWithPagination($page,$limit);
-    //     $jsonEvents = $serializer->serialize($events, 'json',["groups" => "getAllEvents"]);
-    //     return new JsonResponse(    
-    //         $jsonEvents,
-    //         Response::HTTP_OK, 
-    //         [], 
-    //         true
-    //     );
-    // } 
-
-
     /**
      * Renvoie tous les events
      *
@@ -74,8 +46,6 @@ class EventController extends AbstractController
         Request $request
         ): JsonResponse
     {
-        // $fromDays = '+10 day';
-        // $toDays = +10 day;
         $page = $request->get('page', 1);
         $limit = $request->get('limit', 5);
 
@@ -108,18 +78,6 @@ class EventController extends AbstractController
        return new JsonResponse($jsonEvent, Response::HTTP_OK, ['accept' => 'json'], true);
    }
 
-
-//    #[Route('/api/events/{idEvent}', name: 'event.delete', methods: ['DELETE'])]
-//     #[ParamConverter("event", options: ["id" => "idEvent"])]
-//    public function deleteEvent(Event $event, EntityManagerInterface $entityManager): JsonResponse 
-//    {
-//        $entityManager->remove($event);
-//        $entityManager->flush();
-
-//        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
-//    }
-   
-   
 
    #[Route('/api/events', name:"event.create", methods: ['POST'])]
    #[IsGranted('ADMIN', message: 'Hanhanhan, vous n\avez pas dit le mot magiquenh')]

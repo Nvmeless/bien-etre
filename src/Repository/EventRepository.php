@@ -49,59 +49,6 @@ class EventRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Event[] Returns an array of Event objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Event
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
-//     public function findAllWithPagination($page, $limit) {
-//     $qb = $this->createQueryBuilder('b')
-//         ->setFirstResult(($page - 1) * $limit)
-//         ->setMaxResults($limit);
-//     return $qb->getQuery()->getResult();
-// }
-
-    // /**
-    //  * Undocumented function
-    //  *
-    //  * @param DateTime $toDateTime
-    //  * @param DateTime|null $fromDateTime
-    //  * @return void
-    //  */
-    // public function findEventBetween( DateTimeImmutable $endDateTime, ?DateTimeImmutable $startDateTime ) {
-        
-    //     $startDateTime = $startDateTime ?? new DateTimeImmutable();
-
-    //     $qb =  $this->createQueryBuilder('b')
-    //         ->where('b.eventStartDate > :startdate')
-    //         ->andWhere('b.eventStartDate < :enddate')
-    //         ->setParameter('startdate', $startDateTime,  Types::DATETIME_IMMUTABLE)
-    //         ->setParameter('enddate', $endDateTime, Types::DATETIME_MUTABLE);
-        
-    //         return $qb->getQuery()->getResult();
-    // }
-
-
     /**
      * Renvoie les events par date
      *
@@ -140,9 +87,6 @@ class EventRepository extends ServiceEntityRepository
                 new Parameter('enddate', $endDateTime, Types::DATETIME_MUTABLE)
             ]));
 
-
-
-            // return $qb->getQuery()->getResult();
             return $this->andStatusOn($qb, $page, $limit);
         }
 

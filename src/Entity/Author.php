@@ -15,18 +15,18 @@ class Author
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["getAllEvents", 'getAllAuthors'])]
+    #[Groups(["getAllEvents", 'getAllAuthors', "getAllAtoms"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["getAllEvents", 'getAllAuthors'])]
+    #[Groups(["getAllEvents", 'getAllAuthors', "getAllAtoms"])]
     #[Assert\NotBlank(message: "Un auteur doit avoir un nom")]
     #[Assert\NotNull(message: "Un auteur doit avoir un nom")]
     #[Assert\Length(min: 3, minMessage: "Le nom de l'auteur est trop court, on rappelle : au minimum {{ limit }}")]
     private ?string $authorFirstName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(["getAllEvents", 'getAllAuthors'])]
+    #[Groups(["getAllEvents", 'getAllAuthors', "getAllAtoms"])]
     private ?string $authorLastName = null;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Event::class)]

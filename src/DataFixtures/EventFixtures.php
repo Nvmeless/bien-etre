@@ -7,10 +7,11 @@ use Faker\Generator;
 use App\Entity\Event;
 use App\Entity\Author;
 use Doctrine\Persistence\ObjectManager;
+use App\DataFixtures\AppRessourcesFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class AppFixtures extends Fixture
+class EventFixtures extends Fixture
 {
     /**
      * @var Generator
@@ -27,10 +28,19 @@ class AppFixtures extends Fixture
     public function __construct(UserPasswordHasherInterface $userPasswordHasher){
         $this->faker = Factory::create('fr_FR');
         $this->userPasswordHasher = $userPasswordHasher;
+
+        $this->quantity = [
+            'user_authentified' => 5,
+            'author' => 5,
+            'event' => 50,
+        ];
+
     }
     
     public function load(ObjectManager $manager): void
-    {
+    {   
+
+
         // Public
         $publicUser = new User();
         $publicUser->setUsername("public");
@@ -40,7 +50,7 @@ class AppFixtures extends Fixture
 
 
         // Authentifiés
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i <  $this->quantity['user_authentified']; $i++) {
             $userUser = new User();
             $password = $this->faker->password(2, 6);
             $userUser->setUsername($this->faker->userName() . "@". $password);
@@ -59,7 +69,7 @@ class AppFixtures extends Fixture
    
         $authorList = [];
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < $this->quantity['author']; $i++) {
             $author = new Author;
             $author->setAuthorFirstName($this->faker->firstName())
                 ->setAuthorLastName($this->faker->lastName());
@@ -67,9 +77,11 @@ class AppFixtures extends Fixture
             $authorList[] = $author; 
             
             $manager->persist($author);
+            $this->addReference('author_' . $i, $author);
+
         }
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < $this->quantity['event']; $i++) {
             $event = new Event;
             // $endDate = $this->faker->optional($weight = 0.25)->dateTime($max = 'now');
             $endDate = $this->faker->optional($weight = 0.25)->dateTimeInInterval('-1 week', '+10 week');
@@ -80,8 +92,9 @@ class AppFixtures extends Fixture
             ->setEventEndDate($endDate)
             ->setStatus(true)
             ->setAuthor($authorList[array_rand($authorList)]);;
-
+            
             $manager->persist($event);
+            $this->addReference('event_' . $i, $event);
         }
 
 
@@ -90,5 +103,11 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    public function getDependencies()
+    {
+        return [
+            AppRessourcesFixtures::class,
+        ];
+    }
     //`php bin/console doctrine:fixtures:load ` Execute tes Fixtures.
 }
