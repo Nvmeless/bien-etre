@@ -2,12 +2,30 @@
 
 namespace App\Entity;
 
-use App\Repository\EventRepository;
+use Hateoas\Configuration\Annotation as Hateoas;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 // use Symfony\Component\Serializer\Annotation\Groups;
+use App\Repository\EventRepository;
 use JMS\Serializer\Annotation\Groups;
 
+/**
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "event.get",
+ *          parameters = { "idEvent" = "expr(object.getId())" }
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(groups="getAllEvents"),
+ * )
+ * @Hateoas\Relation(
+ *     "up",
+ *      href = @Hateoas\Route(
+ *          "event.getAll"
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(groups="getAllEvents")
+ * )
+ */
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
 {
@@ -16,7 +34,6 @@ class Event
     #[ORM\Column]
     #[Groups(["getAllEvents", "getAllAuthors","getAllAtoms"])]
     private ?int $id = null;
-
     #[ORM\Column(length: 255)]
     #[Groups(["getAllEvents", "getAllAuthors","getAllAtoms"])]
     private ?string $eventName = null;

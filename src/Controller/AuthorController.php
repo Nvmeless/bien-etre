@@ -142,7 +142,8 @@ class AuthorController extends AbstractController
 //    }
 
 
-   #[Route('/api/authors/{id}', name:"author.update", methods:['PUT'])]
+   #[Route('/api/authors/{idAuthor}', name:"author.update", methods:['PUT'])]
+   #[ParamConverter("author", options: ["id" => "idAuthor"])]
 
    public function updateEvent(Request $request, SerializerInterface $serializer, Author $author, EntityManagerInterface $entityManager, EventRepository $eventRepository): JsonResponse 
    {
