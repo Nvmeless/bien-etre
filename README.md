@@ -18,6 +18,9 @@ Maintenant on mets l'autodecouvrabilité, comme ça tout est carré.
 | `composer require security` |
 | `composer require lexik/jwt-authentication-bundle` |
 | `composer require willdurand/hateoas-bundle` |
+| `composer require nelmio/api-doc-bundle` |
+| `composer require twig asset` |
+
 
 | Commande      | Utilité       | 
 | ------------- |:-------------:| 

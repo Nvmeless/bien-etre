@@ -73,6 +73,19 @@
             "./config/packages/lexik_jwt_authentication.yaml"
         ]
     },
+    "nelmio/api-doc-bundle": {
+        "version": "4.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
+        },
+        "files": [
+            "./config/packages/nelmio_api_doc.yaml",
+            "./config/routes/nelmio_api_doc.yaml"
+        ]
+    },
     "sensio/framework-extra-bundle": {
         "version": "6.2",
         "recipe": {
@@ -162,6 +175,19 @@
             "./config/packages/security.yaml"
         ]
     },
+    "symfony/twig-bundle": {
+        "version": "6.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.4",
+            "ref": "bb2178c57eee79e6be0b297aa96fc0c0def81387"
+        },
+        "files": [
+            "./config/packages/twig.yaml",
+            "./templates/base.html.twig"
+        ]
+    },
     "symfony/validator": {
         "version": "6.1",
         "recipe": {
@@ -173,6 +199,9 @@
         "files": [
             "./config/packages/validator.yaml"
         ]
+    },
+    "twig/extra-bundle": {
+        "version": "v3.4.0"
     },
     "vich/uploader-bundle": {
         "version": "1.21",
