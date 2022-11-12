@@ -1,53 +1,56 @@
 nelmio_api_doc:
-    documentation:
-        info:
-            title: API Bien-etre
-            description: Une Super Api !
-            version: 1.0.0
-        paths:
-            /api/login_check:
-                post:
-                    tags:
-                        - Token
-                operationId: postCredentialsItem
-                  summary: Permet d'obtenir le token JWT pour se logger.
-                requestBody:
-                    description: Crée un nouveau token JWT
-                        content:
-                            application/json:
-                                schema:
-                                          $ref: '#/components/schemas/Credentials'
-                responses:
-                    '200':
-                        description: Récupère le token JWT
-                        content:
-                            application/json:
-                                schema:
-                                          $ref: '#/components/schemas/Token'
-        components:
-            schemas:
-                Token:
+  models: { use_jms: false }
+  documentation:
+    info:
+      title: Bien etre
+      description: api bien etre
+      version: 0
+    components:
+      securitySchemes:
+        Bearer:
+          type: http
+          scheme: bearer
+          bearerFormat: JWT
+          in: header
+    security:
+      - Bearer: []
+
+    paths:
+      /api/login_check:
+        post:
+          tags:
+            - Login
+          summary: Login into the api.
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  properties:
+                    username:
+                      type: string
+                    password:
+                      type: string
+                  type: object
+          responses:
+            "200":
+              description: OK
+              content:
+                application/json:
+                  schema:
                     type: object
                     properties:
-                        token:
-                            type: string
-                            readOnly: true
-                Credentials:
-                    type: object
-                    properties:
-                        username:
-                            type: string
-                            default: admin
-                        password:
-                            type: string
-                            default: password
-            securitySchemes:
-                bearerAuth:
-                    type: apiKey
-                    in: header
-                    name: Authorization # or another header name
-        security:
-            - bearerAuth: []
-    areas: # to filter documented areas
-        path_patterns:
-            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
+                      token:
+                        type: string
+                      refresh_token:
+                        type: string
+            "401":
+              description: Invalid credentials
+            "400":
+              description: Invalid JSON.
+          security: []
+
+  areas: # to filter documented areas
+    path_patterns:
+      - ^/api(?!(/doc|/doc.json|/token/refresh)$)
+    #host_patterns:
+    #    - ^/api

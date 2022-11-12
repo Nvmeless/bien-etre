@@ -1,7 +1,7 @@
 
-# ⬆️ Grow on Richeardson
+# ⬆️ Refresh Token
 
-Maintenant on mets l'autodecouvrabilité, comme ça tout est carré.
+
 
 ## Commandes utiles
 
@@ -20,6 +20,8 @@ Maintenant on mets l'autodecouvrabilité, comme ça tout est carré.
 | `composer require willdurand/hateoas-bundle` |
 | `composer require nelmio/api-doc-bundle` |
 | `composer require twig asset` |
+| `composer require doctrine/doctrine-bundle` |
+| `composer require gesdinet/jwt-refresh-token-bundle` |
 
 
 | Commande      | Utilité       | 
@@ -70,3 +72,11 @@ Maintenant on mets l'autodecouvrabilité, comme ça tout est carré.
 
 
 https://www.doctrine-project.org/projects/doctrine-orm/en/2.13/reference/query-builder.html
+
+
+    Refresh Token
+
+| Commande      | Utilité       | 
+| ------------- |:-------------:| 
+| `symfony console make:migration`     |   Genere la migration   | 
+| `php bin/console d:m:m`     | Creer une clée Publique     | 
