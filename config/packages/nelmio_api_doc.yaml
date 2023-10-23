@@ -1,29 +1,29 @@
 nelmio_api_doc:
     documentation:
         info:
-            title: API Bien-etre
-            description: Une Super Api !
-            version: 1.0.0
+            title: Atelier du Bien etre
+            description: l'API du site
+            version: 2.0.0
         paths:
             /api/login_check:
                 post:
+                    operationId: postCredentialsItem
                     tags:
                         - Token
-                operationId: postCredentialsItem
-                  summary: Permet d'obtenir le token JWT pour se logger.
-                requestBody:
-                    description: Crée un nouveau token JWT
+                    summary: Permet d'obtenir le token JWT pour se logger.
+                    requestBody:
+                        description: Crée un nouveau token JWT
                         content:
                             application/json:
                                 schema:
-                                          $ref: '#/components/schemas/Credentials'
-                responses:
-                    '200':
-                        description: Récupère le token JWT
-                        content:
-                            application/json:
-                                schema:
-                                          $ref: '#/components/schemas/Token'
+                                    $ref: '#/components/schemas/Credentials'
+                    responses:
+                        '200':
+                            description: Récupère le token JWT
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/Token'
         components:
             schemas:
                 Token:
@@ -37,7 +37,7 @@ nelmio_api_doc:
                     properties:
                         username:
                             type: string
-                            default: admin
+                            default: admin@apidubienetre.com
                         password:
                             type: string
                             default: password
@@ -46,8 +46,6 @@ nelmio_api_doc:
                     type: apiKey
                     in: header
                     name: Authorization # or another header name
-        security:
-            - bearerAuth: []
     areas: # to filter documented areas
         path_patterns:
             - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
